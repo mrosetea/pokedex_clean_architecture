@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:startDestination="@id/homeFragment"
+    android:id="@+id/navigation_graph">
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.pokedexapp_cleanarchitecture.modules.pokemons.ui.view.home.HomeFragment"
+        android:label="homeFragment"
+        tools:layout="@layout/fragment_home">
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.pokedexapp_cleanarchitecture.modules.pokemons.ui.view.details.DetailFragment"
+        android:label="detailFragment"
+        tools:layout="@layout/fragment_detail"
+        />
+</navigation>

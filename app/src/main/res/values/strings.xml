@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">PokedexApp-CleanArchitecture</string>
+    <string name="logoContent">LogoContent</string>
+</resources>
