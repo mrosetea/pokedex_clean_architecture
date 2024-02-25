@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class HomeViewModel(pokemonGateway: PokemonGateway) : ViewModel() {
+class HomeViewModel(private val pokemonGateway: PokemonGateway) : ViewModel() {
 
     private val initialState = ResponseModel(0, null, null, emptyList())
     private val _response = MutableStateFlow(initialState)

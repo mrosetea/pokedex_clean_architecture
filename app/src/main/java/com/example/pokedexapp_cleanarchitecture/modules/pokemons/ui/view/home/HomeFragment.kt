@@ -8,23 +8,20 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.pokedexapp_cleanarchitecture.databinding.FragmentHomeBinding
-import com.example.pokedexapp_cleanarchitecture.modules.pokemons.data.gateway.PokemonGateway
 import com.example.pokedexapp_cleanarchitecture.modules.pokemons.ui.mapper.toUIModel
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class HomeFragment : Fragment() {
-    private val pokemonGateway: PokemonGateway by inject()
     private lateinit var binding: FragmentHomeBinding
     private lateinit var homeAdapter: HomeAdapter
-    private lateinit var viewModel: HomeViewModel;
+    private val viewModel: HomeViewModel by sharedViewModel()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater)
-        viewModel = HomeViewModel(pokemonGateway)
         return binding.root
     }
 
