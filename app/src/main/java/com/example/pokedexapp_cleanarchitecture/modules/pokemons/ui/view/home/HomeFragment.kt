@@ -1,7 +1,6 @@
 package com.example.pokedexapp_cleanarchitecture.modules.pokemons.ui.view.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,13 +17,14 @@ class HomeFragment : Fragment() {
     private val pokemonGateway: PokemonGateway by inject()
     private lateinit var binding: FragmentHomeBinding
     private lateinit var homeAdapter: HomeAdapter
-
+    private lateinit var viewModel: HomeViewModel;
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater)
+        viewModel = HomeViewModel(pokemonGateway)
         return binding.root
     }
 
@@ -35,10 +35,10 @@ class HomeFragment : Fragment() {
         homeAdapter = HomeAdapter();
         binding.recyclerView.adapter = homeAdapter
         viewLifecycleOwner.lifecycleScope.launch {
-            val result = pokemonGateway.getPokemons()
-            result.result?.toUIModel()
-            result.result.let {
-                it?.toUIModel()?.let { homeAdapter.updateItems(it.results) }
+            viewModel.response.collect {
+                it.toUIModel().let {
+                    homeAdapter.updateItems(it.results)
+                }
             }
         }
 

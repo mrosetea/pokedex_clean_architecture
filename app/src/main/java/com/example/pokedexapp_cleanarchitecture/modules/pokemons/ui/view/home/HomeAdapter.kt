@@ -1,13 +1,8 @@
 package com.example.pokedexapp_cleanarchitecture.modules.pokemons.ui.view.home
 
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.pokedexapp_cleanarchitecture.GlideAppModule
 import com.example.pokedexapp_cleanarchitecture.R
 import com.example.pokedexapp_cleanarchitecture.databinding.ItemPokemonBinding
 import com.example.pokedexapp_cleanarchitecture.modules.pokemons.ui.model.Response
@@ -45,7 +40,6 @@ class HomeViewHolder(private val binding: ItemPokemonBinding) :
     fun bind(item: Response.Pokemon) {
         binding.pokemonName.text = item.name
         binding.pokemonNumber.text = generatePokemonNumber(item.id)
-        Log.d("DEBUG", generateUrlResource(item.id))
         binding.pokemonImage.loadImage(generateUrlResource(item.id))
     }
 
