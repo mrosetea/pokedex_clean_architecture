@@ -8,14 +8,15 @@ import com.example.pokedexapp_cleanarchitecture.databinding.ItemPokemonBinding
 import com.example.pokedexapp_cleanarchitecture.modules.pokemons.ui.model.Response
 import com.example.pokedexapp_cleanarchitecture.util.loadImage
 
-class HomeAdapter : RecyclerView.Adapter<HomeViewHolder>() {
+class HomeAdapter(private val listener: (name: Int) -> Unit) :
+    RecyclerView.Adapter<HomeViewHolder>() {
 
     val items: MutableList<Response.Pokemon> = mutableListOf();
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_pokemon, parent, false)
         val binding = ItemPokemonBinding.bind(view);
-        return HomeViewHolder(binding)
+        return HomeViewHolder(binding, listener)
     }
 
     override fun getItemCount(): Int {
@@ -34,20 +35,26 @@ class HomeAdapter : RecyclerView.Adapter<HomeViewHolder>() {
     }
 }
 
-class HomeViewHolder(private val binding: ItemPokemonBinding) :
+class HomeViewHolder(
+    private val binding: ItemPokemonBinding,
+    private val listener: (id: Int) -> Unit
+) :
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: Response.Pokemon) {
         binding.pokemonName.text = item.name
         binding.pokemonNumber.text = generatePokemonNumber(item.id)
         binding.pokemonImage.loadImage(generateUrlResource(item.id))
+        itemView.setOnClickListener{
+            listener(item.id)
+        }
     }
 
-    fun generateUrlResource(id: Int): String{
+    private fun generateUrlResource(id: Int): String {
         return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${id}.png";
     }
 
-    fun generatePokemonNumber(id: Int): String {
+    private fun generatePokemonNumber(id: Int): String {
         return "#${id.toString()}";
     }
 }
