@@ -2,7 +2,6 @@ package com.example.pokedexapp_cleanarchitecture.modules.pokemons.ui.view.home
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,13 +37,9 @@ class HomeFragment : Fragment() {
         homeAdapter = HomeAdapter { id ->
             findNavController().navigate(R.id.action_from_home_to_detail, bundleOf("id" to id))
         };
-        binding.logoContentText.setOnClickListener{
-
-            Log.d("TEST", "TEST")
+        binding.logoContentText.setOnClickListener {
             val intent = Intent(context, About::class.java)
             startActivity(intent)
-
-
         }
         binding.recyclerView.adapter = homeAdapter
         viewLifecycleOwner.lifecycleScope.launch {
