@@ -1,6 +1,8 @@
 package com.example.pokedexapp_cleanarchitecture.modules.pokemons.ui.view.home
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.pokedexapp_cleanarchitecture.R
 import com.example.pokedexapp_cleanarchitecture.databinding.FragmentHomeBinding
 import com.example.pokedexapp_cleanarchitecture.modules.pokemons.ui.mapper.toUIModel
+import com.example.pokedexapp_cleanarchitecture.modules.pokemons.ui.view.about.About
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -35,6 +38,14 @@ class HomeFragment : Fragment() {
         homeAdapter = HomeAdapter { id ->
             findNavController().navigate(R.id.action_from_home_to_detail, bundleOf("id" to id))
         };
+        binding.logoContentText.setOnClickListener{
+
+            Log.d("TEST", "TEST")
+            val intent = Intent(context, About::class.java)
+            startActivity(intent)
+
+
+        }
         binding.recyclerView.adapter = homeAdapter
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.response.collect {
