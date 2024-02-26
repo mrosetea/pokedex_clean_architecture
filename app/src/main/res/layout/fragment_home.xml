@@ -5,6 +5,17 @@
     android:layout_height="match_parent"
     android:background="@color/primary">
 
+    <com.example.pokedexapp_cleanarchitecture.modules.pokemons.ui.utils.CustomButton
+        android:layout_margin="10dp"
+        android:id="@+id/customButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/round_edittext"
+        app:buttonColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:buttonText="?"/>
+
     <ImageView
         android:id="@+id/logoContent"
         android:layout_width="wrap_content"
