@@ -9,7 +9,7 @@
     <androidx.fragment.app.FragmentContainerView
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="200dp"
         android:name="com.example.pokedexapp_cleanarchitecture.modules.pokemons.ui.view.details.DetailImageFragment"
         android:id="@+id/detailImageFragment"
         />

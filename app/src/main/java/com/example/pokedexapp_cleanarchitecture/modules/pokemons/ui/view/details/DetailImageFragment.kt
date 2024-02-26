@@ -21,7 +21,6 @@ class DetailImageFragment : Fragment() {
         super.onCreateView(inflater, container, savedInstanceState)
         binding = FragmentDetailImageBinding.inflate(layoutInflater)
         val id = arguments?.getInt("id")
-        Log.d("debugg", id.toString())
         binding.pokemonImage.loadImage("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${id}.png")
         return binding.root
     }

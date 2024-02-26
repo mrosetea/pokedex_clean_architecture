@@ -8,7 +8,7 @@ import com.example.pokedexapp_cleanarchitecture.databinding.ItemPokemonBinding
 import com.example.pokedexapp_cleanarchitecture.modules.pokemons.ui.model.Response
 import com.example.pokedexapp_cleanarchitecture.util.loadImage
 
-class HomeAdapter(private val listener: (name: Int) -> Unit) :
+class HomeAdapter(private val listener: (id: Int, name: String) -> Unit) :
     RecyclerView.Adapter<HomeViewHolder>() {
 
     val items: MutableList<Response.Pokemon> = mutableListOf();
@@ -37,7 +37,7 @@ class HomeAdapter(private val listener: (name: Int) -> Unit) :
 
 class HomeViewHolder(
     private val binding: ItemPokemonBinding,
-    private val listener: (id: Int) -> Unit
+    private val listener: (id: Int, name: String) -> Unit
 ) :
     RecyclerView.ViewHolder(binding.root) {
 
@@ -46,7 +46,7 @@ class HomeViewHolder(
         binding.pokemonNumber.text = generatePokemonNumber(item.id)
         binding.pokemonImage.loadImage(generateUrlResource(item.id))
         itemView.setOnClickListener{
-            listener(item.id)
+            listener(item.id, item.name)
         }
     }
 

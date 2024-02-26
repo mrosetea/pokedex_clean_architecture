@@ -23,15 +23,15 @@ class DetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val pokemonId = arguments?.getInt("id")
-        val bundle = Bundle().apply {
-            putInt("id", pokemonId ?: 0)
-        }
         val fragmentManager = childFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
         val detailImageFragment = DetailImageFragment()
-        detailImageFragment.arguments = bundle
+        val detailTextFragment = DetailTextFragment()
+        detailImageFragment.arguments = arguments
+        detailTextFragment.arguments = arguments
         fragmentTransaction.replace(binding.detailImageFragment.id, detailImageFragment)
+        fragmentTransaction.replace(binding.detailTextFragment.id, detailTextFragment)
+
         fragmentTransaction.commit()
     }
 }
