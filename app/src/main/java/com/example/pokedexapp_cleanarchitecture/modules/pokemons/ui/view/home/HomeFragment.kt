@@ -41,6 +41,10 @@ class HomeFragment : Fragment() {
             val intent = Intent(context, About::class.java)
             startActivity(intent)
         }
+        binding.customButton.setOnClickListener{
+            val intent = Intent(context, About::class.java)
+            startActivity(intent)
+        }
         binding.recyclerView.adapter = homeAdapter
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.response.collect {

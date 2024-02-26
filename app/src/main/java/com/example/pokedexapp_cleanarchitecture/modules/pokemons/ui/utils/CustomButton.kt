@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import com.example.pokedexapp_cleanarchitecture.R
@@ -25,21 +26,19 @@ class CustomButton @JvmOverloads constructor(context: Context, attrs: AttributeS
         paint.textAlign = Paint.Align.CENTER
     }
     override fun onDraw(canvas: Canvas) {
-        canvas.drawColor(if (isPressed) Color.DKGRAY else buttonColor)
+        canvas.drawColor(if (isPressed) Color.GRAY else Color.DKGRAY)
         val textY = height / 2 - (paint.descent() + paint.ascent()) / 2
         canvas.drawText(buttonText, width / 2f, textY, paint)
     }
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-                // El usuario ha presionado el botón
                 isPressed = true
-                invalidate() // Vuelve a dibujar la vista
+                invalidate()
             }
             MotionEvent.ACTION_UP -> {
-                // El usuario ha levantado el dedo del botón
                 isPressed = false
-                performClick() // Activa el evento de clic
+                performClick()
                 invalidate()
             }
         }
@@ -47,7 +46,10 @@ class CustomButton @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     override fun performClick(): Boolean {
-        // Llama al método performClick de la clase base
         return super.performClick()
+    }
+
+    override fun setOnClickListener(l: OnClickListener?) {
+        super.setOnClickListener(l)
     }
 }
