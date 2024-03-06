@@ -35,13 +35,16 @@ class HomeFragment : Fragment() {
         binding.recyclerView.layoutManager =
             GridLayoutManager(requireContext(), 2, GridLayoutManager.VERTICAL, false)
         homeAdapter = HomeAdapter { id, name ->
-            findNavController().navigate(R.id.action_from_home_to_detail, bundleOf("id" to id, "name" to name))
+            findNavController().navigate(
+                R.id.action_from_home_to_detail,
+                bundleOf("id" to id, "name" to name)
+            )
         };
         binding.logoContentText.setOnClickListener {
             val intent = Intent(context, About::class.java)
             startActivity(intent)
         }
-        binding.customButton.setOnClickListener{
+        binding.customButton.setOnClickListener {
             val intent = Intent(context, About::class.java)
             startActivity(intent)
         }

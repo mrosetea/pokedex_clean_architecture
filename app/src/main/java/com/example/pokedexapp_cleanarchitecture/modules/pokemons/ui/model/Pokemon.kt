@@ -9,6 +9,7 @@ class Response(
     class Pokemon(
         val name: String,
         val url: String,
-        val id: Int
+        val id: Int,
+        val urlImage: String
     )
 }

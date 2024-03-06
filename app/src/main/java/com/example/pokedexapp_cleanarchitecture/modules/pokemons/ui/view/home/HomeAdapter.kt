@@ -2,6 +2,8 @@ package com.example.pokedexapp_cleanarchitecture.modules.pokemons.ui.view.home
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pokedexapp_cleanarchitecture.R
 import com.example.pokedexapp_cleanarchitecture.databinding.ItemPokemonBinding
@@ -42,19 +44,13 @@ class HomeViewHolder(
     RecyclerView.ViewHolder(binding.root) {
 
     fun bind(item: Response.Pokemon) {
-        binding.pokemonName.text = item.name
-        binding.pokemonNumber.text = generatePokemonNumber(item.id)
-        binding.pokemonImage.loadImage(generateUrlResource(item.id))
+        //binding.pokemonNumber.text = generatePokemonNumber(item.id)
+        //binding.pokemonImage.loadImage(generateUrlResource(item.id))
+        binding.pokemon = item
+        binding.executePendingBindings()
         itemView.setOnClickListener{
             listener(item.id, item.name)
         }
     }
-
-    private fun generateUrlResource(id: Int): String {
-        return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${id}.png";
-    }
-
-    private fun generatePokemonNumber(id: Int): String {
-        return "#${id.toString()}";
-    }
 }
+

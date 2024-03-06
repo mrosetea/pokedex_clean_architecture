@@ -1,8 +1,13 @@
 package com.example.pokedexapp_cleanarchitecture.util
 
+import android.util.Log
 import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 
-internal fun ImageView.loadImage(src: String) {
-    Glide.with(this).load(src).into(this)
+
+@BindingAdapter("imageUrl")
+fun loadImage(view: ImageView, url: String) {
+    Log.d("DEBUGGG", url)
+    Glide.with(view.context).load(url).into(view)
 }

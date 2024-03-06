@@ -5,10 +5,12 @@ import com.example.pokedexapp_cleanarchitecture.modules.pokemons.ui.model.Respon
 
 fun DataModel.toUIModel(): UIModel = UIModel(count, next, previous, results.map {
     val splitedUrl = it.url.split("/")
+    val id = splitedUrl[splitedUrl.size - 2].toInt()
 
     UIModel.Pokemon(
         it.name.orEmpty(),
         it.url.orEmpty(),
-        splitedUrl[splitedUrl.size - 2].toInt()
+        id,
+        urlImage = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${id}.png"
     )
 } ?: emptyList())
