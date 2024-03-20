@@ -63,6 +63,9 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.14.0")
     implementation("com.github.bumptech.glide:okhttp3-integration:4.14.0")
     kapt("com.github.bumptech.glide:compiler:4.14.0")
+    implementation("androidx.paging:paging-runtime:3.1.0")
+    implementation("androidx.paging:paging-runtime-ktx:3.1.0")
+
 
 
 }

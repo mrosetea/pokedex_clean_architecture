@@ -14,7 +14,6 @@ import com.example.pokedexapp_cleanarchitecture.R
 import com.example.pokedexapp_cleanarchitecture.databinding.FragmentHomeBinding
 import com.example.pokedexapp_cleanarchitecture.modules.pokemons.ui.mapper.toUIModel
 import com.example.pokedexapp_cleanarchitecture.modules.pokemons.ui.view.about.About
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -29,6 +28,17 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(inflater)
         return binding.root
+    }
+
+    private fun collectFlows(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            with(viewModel) {
+                uiStateChange.collect {
+                    onUiStateChangeCollected(it)
+                }
+            }
+
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,29 +60,26 @@ class HomeFragment : Fragment() {
             startActivity(intent)
         }
         binding.recyclerView.adapter = homeAdapter
-        viewLifecycleOwner.lifecycleScope.launch {
-            with(viewModel) {
-                uiStateChange.collect {
-                    onUiStateChangeCollected(it)
-                }
-            }
-
-        }
+        collectFlows()
 
     }
 
     private fun onUiStateChangeCollected(uiState: HomeUIStateChange){
         when(uiState) {
-            is HomeUIStateChange.AddHomeLoading -> onAddHomeLoadingCollected(uiState)
-            is HomeUIStateChange.RemoveHomeLoading -> onRemoveHomeLoadingCollected(uiState)
+            is HomeUIStateChange.AddHomeLoading -> onToggleLoading(true)
+            is HomeUIStateChange.RemoveHomeLoading -> onToggleLoading(false)
             is HomeUIStateChange.AddHomePokemonsList -> onAddHomePokemonListCollected(uiState)
             is HomeUIStateChange.AddHomeError -> onAddHomeErrorCollected(uiState)
             else -> {}
         }
     }
-
-    private fun onAddHomeLoadingCollected(uiState: HomeUIStateChange){}
-    private fun onRemoveHomeLoadingCollected(uiState: HomeUIStateChange){}
+    private fun onToggleLoading(loadingVisible: Boolean){
+        binding.progressBar.visibility = if(loadingVisible){
+            View.VISIBLE
+        } else {
+            View.INVISIBLE
+        }
+    }
     private fun onAddHomePokemonListCollected(uiState: HomeUIStateChange.AddHomePokemonsList){
         uiState.pokemons.toUIModel().let {
             homeAdapter.updateItems(it.results)
