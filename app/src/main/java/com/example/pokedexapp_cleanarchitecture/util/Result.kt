@@ -1,10 +1,4 @@
 package com.example.myapplication.core.util
-//sealed
-
-sealed class Result2 {
-    data class Success(val data: Any): Result2()
-    data object Error : Result2()
-}
 
 class Result<R, F : Exception> private constructor() {
     var failure: F? = null

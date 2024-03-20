@@ -7,22 +7,47 @@ import com.example.pokedexapp_cleanarchitecture.modules.pokemons.data.gateway.Po
 import com.example.pokedexapp_cleanarchitecture.modules.pokemons.data.model.ResponseModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HomeViewModel(private val pokemonGateway: PokemonGateway) : ViewModel() {
 
+
+    private var uiState = HomeUIState(
+        pokemons = ResponseModel(
+            0,
+        null,
+            null,
+            emptyList()
+        ),
+        isPokemonListLoading = false,
+        error = null
+    )
     private val initialState = ResponseModel(0, null, null, emptyList())
-    private val _response = MutableStateFlow(initialState)
-    val response: StateFlow<ResponseModel> = _response
+    private val _uiStateChange = MutableStateFlow<HomeUIStateChange>(HomeUIStateChange.None())
+    val uiStateChange = _uiStateChange.asStateFlow()
+
+    private fun updateUiState(uiStateChange: HomeUIStateChange){
+        uiState = uiStateChange.toUiState(uiState)
+        _uiStateChange.update {
+            uiStateChange
+        }
+    }
 
     init {
         viewModelScope.launch {
+            updateUiState(HomeUIStateChange.AddHomeLoading())
             val result = pokemonGateway.getPokemons()
+            updateUiState(HomeUIStateChange.RemoveHomeLoading())
             result.onSuccess {
-                _response.value = it
+                updateUiState(HomeUIStateChange.AddHomePokemonsList(pokemons = it))
             }
             result.onFailure {
-                Log.e("ERROR", "Error al consumir servicio")
+                updateUiState(HomeUIStateChange.RemoveHomeLoading())
+                updateUiState(HomeUIStateChange.AddHomeError(
+                    error = "Error al cargar los datos"
+                ))
             }
         }
     }

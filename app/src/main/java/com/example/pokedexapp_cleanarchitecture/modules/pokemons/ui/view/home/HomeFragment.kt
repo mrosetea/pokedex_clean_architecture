@@ -14,6 +14,7 @@ import com.example.pokedexapp_cleanarchitecture.R
 import com.example.pokedexapp_cleanarchitecture.databinding.FragmentHomeBinding
 import com.example.pokedexapp_cleanarchitecture.modules.pokemons.ui.mapper.toUIModel
 import com.example.pokedexapp_cleanarchitecture.modules.pokemons.ui.view.about.About
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -50,12 +51,34 @@ class HomeFragment : Fragment() {
         }
         binding.recyclerView.adapter = homeAdapter
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.response.collect {
-                it.toUIModel().let {
-                    homeAdapter.updateItems(it.results)
+            with(viewModel) {
+                uiStateChange.collect {
+                    onUiStateChangeCollected(it)
                 }
             }
+
         }
 
     }
+
+    private fun onUiStateChangeCollected(uiState: HomeUIStateChange){
+        when(uiState) {
+            is HomeUIStateChange.AddHomeLoading -> onAddHomeLoadingCollected(uiState)
+            is HomeUIStateChange.RemoveHomeLoading -> onRemoveHomeLoadingCollected(uiState)
+            is HomeUIStateChange.AddHomePokemonsList -> onAddHomePokemonListCollected(uiState)
+            is HomeUIStateChange.AddHomeError -> onAddHomeErrorCollected(uiState)
+            else -> {}
+        }
+    }
+
+    private fun onAddHomeLoadingCollected(uiState: HomeUIStateChange){}
+    private fun onRemoveHomeLoadingCollected(uiState: HomeUIStateChange){}
+    private fun onAddHomePokemonListCollected(uiState: HomeUIStateChange.AddHomePokemonsList){
+        uiState.pokemons.toUIModel().let {
+            homeAdapter.updateItems(it.results)
+        }
+    }
+    private fun onAddHomeErrorCollected(uiState: HomeUIStateChange){}
+
+
 }
