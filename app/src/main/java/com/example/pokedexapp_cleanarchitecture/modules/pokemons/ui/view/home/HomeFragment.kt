@@ -66,26 +66,39 @@ class HomeFragment : Fragment() {
 
     private fun onUiStateChangeCollected(uiState: HomeUIStateChange){
         when(uiState) {
-            is HomeUIStateChange.AddHomeLoading -> onToggleLoading(true)
-            is HomeUIStateChange.RemoveHomeLoading -> onToggleLoading(false)
+            is HomeUIStateChange.AddHomeLoading -> onToggleLoading(uiState)
+            is HomeUIStateChange.RemoveHomeLoading -> onToggleLoading(uiState)
             is HomeUIStateChange.AddHomePokemonsList -> onAddHomePokemonListCollected(uiState)
             is HomeUIStateChange.AddHomeError -> onAddHomeErrorCollected(uiState)
             else -> {}
         }
     }
-    private fun onToggleLoading(loadingVisible: Boolean){
-        binding.progressBar.visibility = if(loadingVisible){
+
+    private fun toggleLoading(visible: Boolean): Int{
+        return if(visible){
             View.VISIBLE
         } else {
             View.INVISIBLE
         }
     }
+    private fun onToggleLoading(uiState: HomeUIStateChange.AddHomeLoading){
+        binding.progressBar.visibility = toggleLoading(uiState.isPokemonListLoading)
+    }
+
+    private fun onToggleLoading(uiState: HomeUIStateChange.RemoveHomeLoading){
+        binding.progressBar.visibility = toggleLoading(uiState.isPokemonListLoading)
+    }
+
     private fun onAddHomePokemonListCollected(uiState: HomeUIStateChange.AddHomePokemonsList){
         uiState.pokemons.toUIModel().let {
             homeAdapter.updateItems(it.results)
         }
     }
-    private fun onAddHomeErrorCollected(uiState: HomeUIStateChange){}
+
+
+    private fun onAddHomeErrorCollected(uiState: HomeUIStateChange){
+
+    }
 
 
 }
